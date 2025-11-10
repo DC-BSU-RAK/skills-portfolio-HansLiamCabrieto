@@ -43,20 +43,20 @@ def startQuiz(menu_window, difficulty): #starting the quiz
     quiz_window = tk.Tk()
     quiz_window.title("Math Quiz")
 
-    def nextQuestion(): 
-        nonlocal question_number, score, attempts
+    def nextQuestion(): #displays the next question
+        nonlocal question_number, score, attempts 
         if question_number > total_questions:
             displayResults(score, quiz_window)
             return
 
-        num1 = randomInt(difficulty)
+        num1 = randomInt(difficulty) #creating the question based on difficulty
         num2 = randomInt(difficulty)
         operation = decideOperation()
 
         question = f"Question {question_number}: {num1} {operation} {num2} = "
         answer_label.config(text=question)
 
-        def submitAnswer():
+        def submitAnswer(): #checks the submission
             nonlocal question_number, score, attempts
             try:
                 user_answer = int(answer_entry.get())
@@ -64,7 +64,7 @@ def startQuiz(menu_window, difficulty): #starting the quiz
                 messagebox.showerror("Not a number", "Enter a number.")
                 return
 
-            correct_answer = num1 + num2 if operation == "+" else num1 - num2
+            correct_answer = num1 + num2 if operation == "+" else num1 - num2 #score track
             if isCorrect(user_answer, correct_answer):
                 score += 10 
                 feedback_label.config(text="Correct! Well done.")
@@ -75,13 +75,13 @@ def startQuiz(menu_window, difficulty): #starting the quiz
             attempts += 1
             answer_entry.delete(0, tk.END)
             if question_number <= total_questions:
-                nextQuestion()
+                nextQuestion() #move to the next question
             else:
                 displayResults(score, quiz_window)
 
         submit_button.config(command=submitAnswer)
 
-    answer_label = tk.Label(quiz_window, text="", font=("Arial", 14))
+    answer_label = tk.Label(quiz_window, text="", font=("Arial", 14)) #GUI
     answer_label.pack(pady=20)
 
     answer_entry = tk.Entry(quiz_window, font=("Arial", 14))
@@ -96,7 +96,7 @@ def startQuiz(menu_window, difficulty): #starting the quiz
     nextQuestion()
     quiz_window.mainloop()
 
-def displayResults(score, window):
+def displayResults(score, window):#gives the rank based on the score
     window.destroy()
     rank = "A+"
     if score >= 90:
@@ -110,7 +110,7 @@ def displayResults(score, window):
     elif score >= 50:
         rank = "D"
 
-    result_window = tk.Tk()
+    result_window = tk.Tk()#shows the result
     result_window.title("Quiz Results")
     result_text = f"Your Score: {score}/100\nYour Rank: {rank}"
 
@@ -123,3 +123,4 @@ def displayResults(score, window):
 
 
 displayMenu()
+
